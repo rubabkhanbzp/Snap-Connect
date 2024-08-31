@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="column side">
+        <%- include('header') %>
+    </div>
+    <div class="column middle">
+        
+        <h2>Welcome to SnapConnect</h2>
+    
+        <% if (currentUser) { %>
+            
+            <form action="/posts" method="POST" class="center">
+                <textarea name="content" placeholder="What's on your mind?" required></textarea>
+                <button type="submit">Post</button>
+            </form>
+        <% } %>
+    
+        <div class="posts">
+            <% posts.forEach(post => { %>
+                <div class="post">
+                    <p><strong><%= post.userId.username %></strong>: <%= post.content %></p>
+    
+                    <p><%= post.likes.length %> Likes</p>
+
+                    <form action="/posts/<%= post._id %>/like" method="POST">
+                        <button type="submit">
+                            <% if (post.likes.some(like => like.userId.toString() === currentUser)) { %>
+                                Unlike
+                            <% } else { %>
+                                Like
+                            <% } %>
+                        </button>
+                    </form>
+    
+                    <div class="comment-section">
+                        <% post.comments.forEach(comment => { %>
+                            <div class="comment">
+                                <p><strong><%= comment.userId.username %></strong>: <%= comment.text %></p>
+                            </div>
+                        <% }) %>
+                    </div>
+    
+                    <% if (currentUser) { %>
+                        <form action="/posts/<%= post._id %>/comments" method="POST">
+                            <input type="text" name="text" placeholder="Add a comment" required>
+                            <button type="submit">Comment</button>
+                        </form>
+                    <% } %>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+    <div class="column side">
+        
+    </div>
+</div>
+
+

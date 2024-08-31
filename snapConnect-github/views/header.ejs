@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=neon">
+<head>
+    <link data-default-icon="/images/logo.png" rel="icon" sizes="5000*5000" href="/images/logo.png">
+    <title>SnapConnect</title>
+</head>
+<div class="header">
+    <h1>SnapConnect</h1>
+</div>
+
+<nav class="topnav">
+    <div class="flexRow">
+        <img src="/images/icons8-home-48-black.png" alt="home">
+        <a href="/">Home</a>
+    </div>
+    
+    <% if (currentUser) { %>
+        <div class="flexRow">
+            <img src="/images/icons8-test-account-48.png" alt="profile">
+            <a href="/profile">Profile</a>
+        </div>
+        
+        <form action="/logout" method="POST" style="display: inline;">
+            <div class="flexRow">
+                <img src="/images/icons8-log-out-48.png" alt="logout">
+                <button type="submit">Logout</button>
+            </div>
+        </form>
+    <% } else { %>
+        <div class="flexRow">
+            <img src="/images/icons8-log-in-48.png" alt="login">
+            <a href="/login">Login</a>
+        </div>
+
+        <div class="flexRow">
+            <img src="/images/icons8-register-48.png" alt="register">
+            <a href="/register">Register</a>
+        </div>
+        
+        
+    <% } %>
+</nav>

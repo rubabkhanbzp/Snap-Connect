@@ -1,0 +1,94 @@
+<div class="row">
+    <div class="column side">
+        <%- include('header') %>
+    </div>
+    <div class="column middle">
+        <div class="profile">
+            <div class="profile-info">
+                <div class="flexRow">
+                    <img src="<%= user.profilePicture %>" alt="Profile Picture">
+                    <h2><%= user.username %></h2>
+                </div>
+                <p><%= user.bio %></p>
+
+
+                <div class="counts">
+                    <span id="followersCount"><%= user.followers.length %></span> Followers
+                    <span id="followingCount"><%= user.following.length %></span> Following
+                </div>
+        
+                <% if (isOwnProfile) { %>
+                    <button id="editProfileBtn" onclick="toggleEditProfile()">Edit Profile</button>
+
+                    <div id="editProfileForm" style="display: none; margin-top: 20px;">
+                        <form action="/profile/edit" method="POST" enctype="multipart/form-data">
+                            <label for="profilePicture">Select Profile Picture:</label>
+                            <input type="file" name="profilePicture">
+    
+                            <textarea name="bio" placeholder="Enter your bio..."><%= user.bio %></textarea>
+    
+                            <button type="submit">Update Profile</button>
+                        </form>
+                    </div>
+                <% } else { %>
+                    <button class="follow-button" onclick="toggleFollow('<%= user._id %>')">
+                        <% if (followedUsers.includes(otherUser._id.toString())) { %>
+                            Unfollow 
+                        <% } else { %> 
+                            Follow 
+                        <% } %>
+                    </button>
+                <% } %>
+            </div>
+        
+            <!-- <h3>Posts</h3>
+            <div class="user-posts">
+                <% (user.posts || []).forEach(post => { %>
+                    <div class="post">
+                        <p><%= post.content %></p>
+                        <% if (post.imageUrl) { %>
+                            <img src="<%= post.imageUrl %>" alt="Post Image">
+                        <% } %>
+                        <button class="like-button" onclick="likePost('<%= post._id %>')">Like</button>
+                        <button class="comment-button" onclick="showCommentBox('<%= post._id %>')">Comment</button>
+                    </div>
+                <% }) %>
+            </div> -->
+        </div>
+    </div>
+    <div class="column side">
+        <h3>Other Users</h3>
+        <ul>
+            <% users.forEach(otherUser => { %>
+                <% if (otherUser._id.toString() !== user._id.toString()) { %>
+                    <li>
+                        <img src="<%= otherUser.profilePicture %>" alt="pic">
+                        <%= otherUser.username %>
+                        <button class="follow-button" onclick="toggleFollow('<%= otherUser._id %>')">
+                            <% if (followedUsers.includes(otherUser._id.toString())) { %> 
+                                Unfollow 
+                            <% } else { %> 
+                                Follow 
+                            <% } %>
+                        </button>
+                    </li>
+                <% } %>
+            <% }) %>
+        </ul>
+    </div>
+</div>
+
+<script src="/scripts.js"></script>
+
+<script>
+    function toggleEditProfile() {
+        const editForm = document.getElementById('editProfileForm');
+        if (editForm.style.display === 'none') {
+            editForm.style.display = 'block';
+        } else {
+            editForm.style.display = 'none';
+        }
+    }
+</script>
+
+

@@ -1,0 +1,24 @@
+<%- include('header') %>
+
+<div class="post-detail">
+    <div class="profile-info">
+        <img src="<%= post.user.profilePicture %>" alt="Profile Picture">
+        <p><%= post.user.username %></p>
+    </div>
+    <p><%= post.content %></p>
+    <% if (post.imageUrl) { %>
+        <img src="<%= post.imageUrl %>" alt="Post Image">
+    <% } %>
+    <button class="like-button" onclick="likePost('<%= post._id %>')">Like</button>
+
+    <div class="comments-section">
+        <h4>Comments</h4>
+        <textarea id="comment-input" placeholder="Write a comment..."></textarea>
+        <button onclick="commentOnPost('<%= post._id %>')">Submit</button>
+        <% post.comments.forEach(comment => { %>
+            <p><strong><%= comment.user.username %>:</strong> <%= comment.content %></p>
+        <% }) %>
+    </div>
+</div>
+
+
